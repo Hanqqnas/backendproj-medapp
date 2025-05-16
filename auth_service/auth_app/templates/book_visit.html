@@ -1,0 +1,17 @@
+<h2>Book a Visit</h2>
+<form method="POST">
+  {% csrf_token %}
+  <label for="doctor">Choose Doctor:</label>
+  <select name="doctor_id">
+    {% for doc in doctors %}
+      <option value="{{ doc.id }}">{{ doc.first_name }} {{ doc.last_name }} ({{ doc.specialization }})</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Date:</label><input type="date" name="date"><br>
+  <label>Time:</label><input type="time" name="time"><br>
+  <label>Description:</label><br>
+  <textarea name="description" rows="3" cols="40"></textarea><br>
+
+  <button type="submit">Book Visit</button>
+</form>

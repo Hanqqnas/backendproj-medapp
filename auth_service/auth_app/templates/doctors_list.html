@@ -1,0 +1,25 @@
+<h2>Doctors List</h2>
+
+<form method="get">
+  <label for="specialization">Filter by specialization:</label>
+  <select name="specialization" id="specialization" onchange="this.form.submit()">
+    <option value="">-- all --</option>
+    {% for code, label in specializations %}
+      {% if selected == code %}
+        <option value="{{ code }}" selected>{{ label }}</option>
+      {% else %}
+        <option value="{{ code }}">{{ label }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+</form>
+
+<ul>
+  {% for doctor in doctors %}
+    <li>{{ doctor.first_name }} {{ doctor.last_name }} – {{ doctor.get_specialization_display }}</li>
+  {% empty %}
+    <li>No doctors found in this specialization.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'patient_dashboard' %}">Back to dashboard</a>
