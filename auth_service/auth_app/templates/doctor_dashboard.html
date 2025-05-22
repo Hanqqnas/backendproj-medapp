@@ -1,2 +1,16 @@
-<h2>Welcome Doctor {{ request.user.username }}</h2>
+<h2>Welcome, dr {{ request.user.first_name }} {{ request.user.last_name }}</h2>
+
+<h2>Your Scheduled Appointments:</h2>
+<ol>
+  {% for visit in visits %}
+    <li class="visit-item">
+      <strong>Date:</strong> {{ visit.date|date:"M. j, Y, P" }}<br>
+      <strong>Patient:</strong> {{ visit.patient.id }}, {{ visit.patient.first_name }} {{ visit.patient.last_name }}<br>
+      <strong>Description: </strong>{{ visit.description }}
+    </li>
+  {% empty %}
+    <p>No scheduled visits.</p>
+  {% endfor %}
+</ol>
+
 <a href="{% url 'logout' %}">Logout</a>

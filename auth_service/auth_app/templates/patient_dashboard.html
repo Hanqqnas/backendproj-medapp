@@ -1,32 +1,21 @@
-<h2>Welcome Patient {{ request.user.username }}</h2>
+<h2>Welcome {{ request.user.first_name }} {{ request.user.last_name }}</h2>
 
-<a href="{% url 'doctors_list' %}">Zobacz lekarzy</a><br>
+<a href="{% url 'doctors_list' %}">View doctors</a><br>
 <a href="{% url 'book_visit' %}">Schedule a new visit</a><br>
 <a href="{% url 'logout' %}">Logout</a>
+<h2>Your planned visits</h2>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const token = localStorage.getItem("access"); // zakładamy, że masz token
-
-    fetch("http://127.0.0.1:8001/api/visits/", {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Błąd autoryzacji");
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Dane wizyt:", data);
-        // Możesz np. dynamicznie wstawić do <div id="visits">
-    })
-    .catch(error => {
-        console.error("Błąd:", error);
-    });
-});
-</script>
+{% if visits %}
+    <ul>
+        {% for visit in visits %}
+            <li>
+                <strong>Date:</strong> {{ visit.date }}<br>
+                <strong>Doctor ID:</strong> {{ visit.doctor.id }}, {{ visit.doctor.first_name }} {{ visit.doctor.last_name }}<br>
+                <strong>Description:</strong> {{ visit.description }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You don't have planned visits.</p>
+{% endif %}

@@ -7,7 +7,8 @@ from rest_framework_simplejwt.views import (
 from .serializers import CustomTokenObtainPairSerializer, CurrentUserView
 from auth_app.views import home_view
 from auth_app.views import book_visit_view
-from .views import CurrentUserView
+from django.urls import path
+from . import views
 
 class CustomTokenView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -21,10 +22,13 @@ urlpatterns = [
     path('doctor/dashboard/', doctor_dashboard, name='doctor_dashboard'),
     path('patient/dashboard/', patient_dashboard, name='patient_dashboard'),
     path('doctors/', doctors_list_view, name='doctors_list'),
-    path('book/', book_visit_view, name='book_visit'),
+    path('auth/book/', views.book_visit_view, name='book_visit'),
 
+
+    path('', CurrentUserView.as_view()),
     path('api/register/', register_view),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/user/', CurrentUserView.as_view(), name='current_user'),
+
 ]
